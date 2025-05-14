@@ -58,6 +58,39 @@ class _TodoScreenState extends State<TodoScreen> {
                           todoBloc.add(DeleteTodo(todo.id));
                         },
                       ),
+                      leading: IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          final TextEditingController controller = TextEditingController(text: todo.title);
+
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Edit Todo"),
+                                content: TextField(
+                                  controller: controller,
+                                  decoration: InputDecoration(hintText: "Enter updated title"),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      final updatedTitle = controller.text.trim();
+                                      if (updatedTitle.isNotEmpty) {
+                                        todoBloc.add(UpdateTodo(
+                                          TodoModel(id: todo.id, title: updatedTitle),
+                                        ));
+                                      }
+                                      Navigator.of(context).pop(); // Close dialog
+                                    },
+                                    child: Text("Update"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
                     );
                   },
                 );
