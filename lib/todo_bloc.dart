@@ -12,8 +12,12 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     });
 
     on<DeleteTodo>((event, emit) {
+      for (var todo in state.todos) {
+        print("eventid11: ${todo.id}");
+      }
       final updatedList = state.todos.where((todo) => todo.id != event.id).toList();
       emit(TodoState(updatedList));
+      print("eventid${event.id}");
     });
     on<UpdateTodo>((event, emit) {
       final updatedList = state.todos.map((todo) {
